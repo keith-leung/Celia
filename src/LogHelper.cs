@@ -38,22 +38,38 @@ namespace SharpCC.UtilityFramework
                 return m_azureConfiguration.NeedAzureLogging;
             }
         }
-        //private static bool m_needAzureTable = false;
 
         public static CloudStorageAccount AzureStorageAccount
         {
             get
             {
-                return m_azureConfiguration.AzureLoggingStorageAccount;
+                if (m_azureConfiguration != null)
+                    return m_azureConfiguration.AzureLoggingStorageAccount;
+                return null;
             }
         }
-        //private static CloudStorageAccount m_azureStorageAccount = null;
+
+        public static string AzureLoggingStorageAccountConnection
+        {
+            get
+            {
+                if (m_azureConfiguration != null)
+                    return m_azureConfiguration.AzureLoggingStorageAccountConnection;
+                return string.Empty;
+            }
+            set
+            {
+                if (m_azureConfiguration == null)
+                    m_azureConfiguration = new AzureLoggingConfiguration();
+                m_azureConfiguration.AzureLoggingStorageAccountConnection = value;
+                m_azureConfiguration.Build();
+            }
+        }
 
         public static CloudTableClient AzureTableClient
         {
             get { return m_azureConfiguration.AzureTableClient; }
         }
-        //private static CloudTableClient m_azureTableClient = null;
 
         public static string AzureLoggerName
         {
@@ -65,15 +81,19 @@ namespace SharpCC.UtilityFramework
                 }
                 return "DefaultLogger";
             }
+            set
+            {
+                if (NeedAzureTableLogging)
+                {
+                    m_azureConfiguration.AzureLoggerName = value;
+                }
+            }
         }
         #endregion
 
         static LogHelper()
         {
             log4net.Config.XmlConfigurator.Configure();
-
-            //AzureLogConfigurationSectionHandler handler = new AzureLogConfigurationSectionHandler();
-            //AzureLoggingConfiguration config = new AzureLoggingConfiguration();
 
             try
             {
@@ -94,14 +114,6 @@ namespace SharpCC.UtilityFramework
             {
                 m_needLog4Net = false;
             }
-
-            //string storageConnection = ConfigurationManager.AppSettings["AzureStorageAccountConnection"];
-            //if (!string.IsNullOrWhiteSpace(storageConnection))
-            //{
-            //    m_needAzureTable = true;
-            //    m_azureStorageAccount = CloudStorageAccount.Parse(storageConnection);
-            //    m_azureTableClient = m_azureStorageAccount.CreateCloudTableClient();
-            //}
             #endregion
         }
 
@@ -165,11 +177,6 @@ namespace SharpCC.UtilityFramework
             WarnLog4Net(p, e);
             AppendToAzureTable(AzureLogs.AzureLogType.Warn, p, null);
         }
-
-        //private static void ErrorAzureTable(string p, Exception e)
-        //{
-        //    AppendToAzureTable(p, e);
-        //}
 
         private static void AppendToAzureTable(AzureLogs.AzureLogType logType, string p, Exception ex)
         {
