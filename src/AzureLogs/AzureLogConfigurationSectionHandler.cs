@@ -13,30 +13,62 @@ namespace SharpCC.UtilityFramework.AzureLogs
         public object Create(object parent, object configContext, XmlNode section)
         {
             AzureLoggingConfiguration config = new AzureLoggingConfiguration();
-            Dictionary<string, string> configValues = new Dictionary<string, string>();
-            string key = string.Empty;
 
-            foreach (XmlNode childNode in section.ChildNodes)
+            if (section.Name.Equals(AzureLoggingConfiguration.AZURE_LOGGING_CONFIG_NODES,
+                StringComparison.InvariantCultureIgnoreCase))
             {
-                try
+                foreach (XmlNode childNode in section.ChildNodes)
                 {
-                    if (childNode.Attributes["key"] != null && childNode.Attributes["value"] != null)
+                    try
                     {
-                        key = childNode.Attributes["key"].Value;
-                        if (key == AzureLoggingConfiguration.LOGGER_NAME)
+                        string key = string.Empty;
+                        string runtime = string.Empty;
+                        string value = string.Empty;
+
+                        AzureLoggingConnectionString connStr = new AzureLoggingConnectionString();
+
+                        if (childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING] != null)
                         {
-                            config.AzureLoggerName = childNode.Attributes["value"].Value;
-                        }
-                        if (key == AzureLoggingConfiguration.CONNECTION_STRING)
-                        {
-                            config.AzureLoggingStorageAccountConnection = childNode.Attributes["value"].Value;
+                            value = childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING].Value;
+
+                            if (childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING_NODE_KEY] != null)
+                            {
+                                key = childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING_NODE_KEY].Value;
+                            }
+
+                            ConfigSectionRuntimeEnum rt = ConfigSectionRuntimeEnum.RELEASE;
+                            if (childNode.Attributes[AzureLoggingConfiguration.RUNTIME] != null)
+                            {
+                                runtime = childNode.Attributes[AzureLoggingConfiguration.RUNTIME].Value;
+                                if (!string.IsNullOrEmpty(runtime) && runtime.Equals(
+                                    AzureLoggingConfiguration.RUNTIME_DEBUG, StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    rt = ConfigSectionRuntimeEnum.DEBUG;
+                                }
+                                else if (!string.IsNullOrEmpty(runtime) && runtime.Equals(
+                                   AzureLoggingConfiguration.RUNTIME_FORCE, StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    rt = ConfigSectionRuntimeEnum.FORCE;
+                                }
+                            }
+
+                            connStr.Runtime = rt;
+                            connStr.Key = key;
+                            connStr.AzureStorageAccountConnection = value;
+
+                            if (childNode.Attributes[AzureLoggingConfiguration.LOGGER_NAME] != null)
+                            {
+                                connStr.AzureLoggerName = childNode.Attributes[AzureLoggingConfiguration.LOGGER_NAME].Value;
+                            }
+
+                            config.ConnectionStrings.Add(connStr);
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    System.Diagnostics.Trace.TraceError(ex.Message);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        System.Diagnostics.Trace.TraceError(ex.Message);
+                    }
                 }
             }
 

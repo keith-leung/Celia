@@ -10,14 +10,34 @@ namespace SharpCC.UtilityFramework.AzureLogs
 {
     public class AzureLoggingConfiguration
     {
-        private bool needAzureLogging = false;
+        public const string AZURE_LOGGING_CONFIG_NODES = "azureLoggings";
+
         public const string LOGGER_NAME = "AzureLoggerName";
-        public const string CONNECTION_STRING = "AzureLoggingStorageAccountConnection";
+
+        public const string CONNECTION_STRING_NODE_KEY = "key";
+
+        public const string RUNTIME = "Runtime";
+
+        public const string RUNTIME_DEBUG = "Debug";
+        public const string RUNTIME_RELEASE = "Release";
+        public const string RUNTIME_FORCE = "Force";
+
+        public const string CONNECTION_STRING = "value";
+
+        internal List<AzureLoggingConnectionString> ConnectionStrings
+        {
+            get { return this.m_connectionStrings; }
+        }
+
+        private List<AzureLoggingConnectionString> m_connectionStrings
+            = new List<AzureLoggingConnectionString>();
+
+        private AzureLoggingConnectionString m_defaultConnectionString = null;
 
         public bool NeedAzureLogging
         {
-            get { return needAzureLogging; }
-            set { needAzureLogging = value; }
+            get;
+            internal set;
         }
 
         public string AzureLoggingStorageAccountConnection
@@ -37,16 +57,60 @@ namespace SharpCC.UtilityFramework.AzureLogs
 
         public void Build()
         {
-            string storageConnection = this.AzureLoggingStorageAccountConnection;
-            if (!string.IsNullOrWhiteSpace(storageConnection))
+            if (m_connectionStrings.Any(
+                m => m.Runtime == ConfigSectionRuntimeEnum.FORCE))
+            {//如果是强制使用，那么就使用这个节点
+                m_defaultConnectionString = m_connectionStrings.First(
+                    m => m.Runtime == ConfigSectionRuntimeEnum.FORCE);
+            }
+            else
             {
-                this.needAzureLogging = true;
+#if DEBUG
+                if (m_connectionStrings.Any(
+                    m => m.Runtime == ConfigSectionRuntimeEnum.DEBUG))
+                {
+                    m_defaultConnectionString = m_connectionStrings.First(
+                        m => m.Runtime == ConfigSectionRuntimeEnum.DEBUG);
+                }
+#else
+                if (m_connectionStrings.Any(
+                    m => m.Runtime == ConfigSectionRuntimeEnum.RELEASE))
+                {
+                    m_defaultConnectionString = m_connectionStrings.First(
+                        m => m.Runtime == ConfigSectionRuntimeEnum.RELEASE);
+                } 
+#endif
+                if (m_defaultConnectionString == null //如果ConnectionString仍然为空
+                    && m_connectionStrings.Any(
+                   m => string.IsNullOrEmpty(m.Key)))
+                {
+                    m_defaultConnectionString = m_connectionStrings.First(
+                        m => string.IsNullOrEmpty(m.Key));
+                }
 
-                this.AzureLoggingStorageAccount = CloudStorageAccount.Parse(storageConnection);
+                if (m_defaultConnectionString == null //如果ConnectionString仍然为空
+                    && m_connectionStrings.Any(
+                   m => string.IsNullOrEmpty(m.Key)))
+                {//随便取一个
+                    m_defaultConnectionString = m_connectionStrings.FirstOrDefault();
+                }
+            }
+            if (this.m_defaultConnectionString != null &&
+                !string.IsNullOrWhiteSpace(this.m_defaultConnectionString.AzureStorageAccountConnection))
+            {
+                this.NeedAzureLogging = true;
+
+                this.AzureLoggingStorageAccount = CloudStorageAccount.Parse(
+                    this.m_defaultConnectionString.AzureStorageAccountConnection);
                 this.AzureTableClient = AzureLoggingStorageAccount.CreateCloudTableClient();
             }
 
-            if (string.IsNullOrWhiteSpace(this.AzureLoggerName))
+            if (this.m_defaultConnectionString != null &&
+                !string.IsNullOrWhiteSpace(this.m_defaultConnectionString.AzureStorageAccountConnection))
+            {
+                this.AzureLoggerName = this.m_defaultConnectionString.AzureLoggerName;
+            }
+            else
             {
                 this.AzureLoggerName = "DefaultLogger";
             }

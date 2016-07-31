@@ -16,7 +16,7 @@ namespace SharpCC.UtilityFramework
     {
         private static string m_loggerName = "DefaultLogger";
 
-        private static bool m_needLog4Net = true;
+        //private static bool m_needLog4Net = true;
 
         #region azure logging
         private static AzureLoggingConfiguration m_azureConfiguration = new AzureLoggingConfiguration();
@@ -97,24 +97,24 @@ namespace SharpCC.UtilityFramework
 
             try
             {
-                m_azureConfiguration = System.Configuration.ConfigurationManager.GetSection("azureLogging") as AzureLoggingConfiguration;
+                m_azureConfiguration = System.Configuration.ConfigurationManager.GetSection("azureLoggings") as AzureLoggingConfiguration;
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex.Message);
             }
 
-            #region change to azure logging configuration
-            if (!string.IsNullOrEmpty(
-                System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"]))
-            {
-                m_loggerName = System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"];
-            }
-            else
-            {
-                m_needLog4Net = false;
-            }
-            #endregion
+            //#region change to azure logging configuration
+            //if (!string.IsNullOrEmpty(
+            //    System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"]))
+            //{
+            //    m_loggerName = System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"];
+            //}
+            //else
+            //{
+            //    m_needLog4Net = false;
+            //}
+            //#endregion
         }
 
         public static void Error(string p, Exception e)
@@ -254,7 +254,7 @@ namespace SharpCC.UtilityFramework
 
         private static void ErrorLog4Net(string p, Exception e)
         {
-            if (!m_needLog4Net)
+            if (!NeedAzureTableLogging)
                 return;
 
             ILog log = LogManager.GetLogger(m_loggerName);
@@ -281,7 +281,7 @@ namespace SharpCC.UtilityFramework
 
         private static void ErrorLog4Net(string p)
         {
-            if (!m_needLog4Net)
+            if (!NeedAzureTableLogging)
                 return;
             ILog log = LogManager.GetLogger(m_loggerName);
             log.Error(p);
@@ -289,7 +289,7 @@ namespace SharpCC.UtilityFramework
 
         private static void InfoLog4Net(string p)
         {
-            if (!m_needLog4Net)
+            if (!NeedAzureTableLogging)
                 return;
             ILog log = LogManager.GetLogger(m_loggerName);
             log.Info(p);
@@ -297,7 +297,7 @@ namespace SharpCC.UtilityFramework
 
         private static void DebugLog4Net(string p)
         {
-            if (!m_needLog4Net)
+            if (!NeedAzureTableLogging)
                 return;
             ILog log = LogManager.GetLogger(m_loggerName);
             log.Debug(p);
@@ -305,7 +305,7 @@ namespace SharpCC.UtilityFramework
 
         private static void FatalLog4Net(string p, Exception e)
         {
-            if (!m_needLog4Net)
+            if (!NeedAzureTableLogging)
                 return;
             ILog log = LogManager.GetLogger(m_loggerName);
             log.Fatal(p, e);
@@ -313,7 +313,7 @@ namespace SharpCC.UtilityFramework
 
         private static void WarnLog4Net(string p)
         {
-            if (!m_needLog4Net)
+            if (!NeedAzureTableLogging)
                 return;
             ILog log = LogManager.GetLogger(m_loggerName);
             log.Warn(p);
@@ -321,7 +321,7 @@ namespace SharpCC.UtilityFramework
 
         private static void WarnLog4Net(string p, Exception e)
         {
-            if (!m_needLog4Net)
+            if (!NeedAzureTableLogging)
                 return;
             ILog log = LogManager.GetLogger(m_loggerName);
             log.Warn(p, e);

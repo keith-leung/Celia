@@ -8,36 +8,144 @@ namespace SharpCC.UtilityFramework.AzureStorage
 {
     public class AzureCloudStorageConfiguration
     {
-        public const string CONNECTION_STRING = "StorageAccountConnectionString";
+        public const string AZURE_STORAGE_CONFIG_NODES = "azureStorages";
+
+        public const string AZURE_STORAGE_NODE_NAME = "add";
+
+        public const string CONNECTION_STRING_NODE_KEY = "key";
+
+        public const string RUNTIME = "Runtime";
+
+        public const string RUNTIME_DEBUG = "Debug";
+        public const string RUNTIME_RELEASE = "Release";
+        public const string RUNTIME_FORCE = "Force";
+
+        public const string CONNECTION_STRING = "value";
 
         public const string FILE_NODENAME = "file";
         public const string QUEUE_NODENAME = "queue";
         public const string TABLE_NODENAME = "table";
         public const string BLOB_NODENAME = "blob";
 
-        public string AzureBlobAccountConnection { get; internal set; }
-        public string AzureFileAccountConnection { get; internal set; }
-        public string AzureQueueAccountConnection { get; internal set; }
-        public string AzureStorageAccountConnection { get; internal set; }
-        public string AzureTableAccountConnection { get; internal set; }
+        internal List<AzureStorageConnectionString> ConnectionStrings
+        {
+            get { return this.m_connectionStrings; }
+        }
+
+        private List<AzureStorageConnectionString> m_connectionStrings
+            = new List<AzureStorageConnectionString>();
+
+        private AzureStorageConnectionString m_defaultConnectionString = null;
+
+        public string Key
+        {
+            get
+            {
+                if (m_defaultConnectionString != null)
+                    return m_defaultConnectionString.Key;
+                return string.Empty;
+            }
+        }
+
+        public ConfigSectionRuntimeEnum Runtime
+        {
+            get
+            {
+                if (m_defaultConnectionString != null)
+                    return m_defaultConnectionString.Runtime;
+                return ConfigSectionRuntimeEnum.FORCE;
+            }
+        }
+
+        public string AzureBlobAccountConnection
+        {
+            get
+            {
+                if (m_defaultConnectionString != null)
+                    return m_defaultConnectionString.AzureBlobAccountConnection;
+                return string.Empty;
+            }
+        }
+
+        public string AzureFileAccountConnection
+        {
+            get
+            {
+                if (m_defaultConnectionString != null)
+                    return m_defaultConnectionString.AzureFileAccountConnection;
+                return string.Empty;
+            }
+        }
+
+        public string AzureQueueAccountConnection
+        {
+            get
+            {
+                if (m_defaultConnectionString != null)
+                    return m_defaultConnectionString.AzureQueueAccountConnection;
+                return string.Empty;
+            }
+        }
+
+        public string AzureStorageAccountConnection
+        {
+            get
+            {
+                if (m_defaultConnectionString != null)
+                    return m_defaultConnectionString.AzureStorageAccountConnection;
+                return string.Empty;
+            }
+        }
+
+        public string AzureTableAccountConnection
+        {
+            get
+            {
+                if (m_defaultConnectionString != null)
+                    return m_defaultConnectionString.AzureTableAccountConnection;
+                return string.Empty;
+            }
+        }
 
         internal void Build()
         {
-            if (string.IsNullOrWhiteSpace(this.AzureBlobAccountConnection))
-            {
-                this.AzureBlobAccountConnection = this.AzureStorageAccountConnection;
+            if (m_connectionStrings.Any(
+                m => m.Runtime == ConfigSectionRuntimeEnum.FORCE))
+            {//如果是强制使用，那么就使用这个节点
+                m_defaultConnectionString = m_connectionStrings.First(
+                    m => m.Runtime == ConfigSectionRuntimeEnum.FORCE);
             }
-            if (string.IsNullOrWhiteSpace(this.AzureFileAccountConnection))
+            else
             {
-                this.AzureFileAccountConnection = this.AzureStorageAccountConnection;
-            }
-            if (string.IsNullOrWhiteSpace(this.AzureQueueAccountConnection))
-            {
-                this.AzureQueueAccountConnection = this.AzureStorageAccountConnection;
-            }
-            if (string.IsNullOrWhiteSpace(this.AzureTableAccountConnection))
-            {
-                this.AzureTableAccountConnection = this.AzureStorageAccountConnection;
+#if DEBUG
+                if (m_connectionStrings.Any(
+                    m => m.Runtime == ConfigSectionRuntimeEnum.DEBUG))
+                {
+                    m_defaultConnectionString = m_connectionStrings.First(
+                        m => m.Runtime == ConfigSectionRuntimeEnum.DEBUG);
+                }
+#else
+                if (m_connectionStrings.Any(
+                    m => m.Runtime == ConfigSectionRuntimeEnum.RELEASE))
+                {
+                    m_defaultConnectionString = m_connectionStrings.First(
+                        m => m.Runtime == ConfigSectionRuntimeEnum.RELEASE);
+                } 
+#endif
+                if (m_defaultConnectionString == null //如果ConnectionString仍然为空
+                    && m_connectionStrings.Any(
+                   m => string.IsNullOrEmpty(m.Key)))
+                {
+                    m_defaultConnectionString = m_connectionStrings.First(
+                        m => string.IsNullOrEmpty(m.Key));
+                }
+
+                if (m_defaultConnectionString == null //如果ConnectionString仍然为空
+                    && m_connectionStrings.Any(
+                   m => string.IsNullOrEmpty(m.Key)))
+                {//随便取一个
+                    m_defaultConnectionString = m_connectionStrings.FirstOrDefault();
+                }
             }
         }
     }
