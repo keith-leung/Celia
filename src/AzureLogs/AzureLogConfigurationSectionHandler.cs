@@ -27,7 +27,8 @@ namespace SharpCC.UtilityFramework.AzureLogs
 
                         AzureLoggingConnectionString connStr = new AzureLoggingConnectionString();
 
-                        if (childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING] != null)
+                        if (childNode.Attributes != null && childNode.Attributes.Count > 0 &&
+                            childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING] != null)
                         {
                             value = childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING].Value;
 

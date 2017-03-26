@@ -104,17 +104,22 @@ namespace SharpCC.UtilityFramework
                 Trace.WriteLine(ex.Message);
             }
 
-            //#region change to azure logging configuration
-            //if (!string.IsNullOrEmpty(
-            //    System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"]))
-            //{
-            //    m_loggerName = System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"];
-            //}
+            #region change to azure logging configuration
+            if (m_azureConfiguration != null &&
+                !string.IsNullOrEmpty(m_azureConfiguration.AzureLoggerName))
+            {
+                m_loggerName = m_azureConfiguration.AzureLoggerName;
+            }
+            else if (!string.IsNullOrEmpty(
+                System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"]))
+            {
+                m_loggerName = System.Configuration.ConfigurationManager.AppSettings["Log4NetLoggerName"];
+            }
             //else
             //{
             //    m_needLog4Net = false;
             //}
-            //#endregion
+            #endregion
         }
 
         public static void Error(string p, Exception e)

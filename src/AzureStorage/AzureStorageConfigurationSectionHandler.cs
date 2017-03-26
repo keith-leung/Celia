@@ -27,7 +27,8 @@ namespace SharpCC.UtilityFramework.AzureStorage
 
                         AzureStorageConnectionString connStr = new AzureStorageConnectionString();
 
-                        if (childNode.Attributes[AzureCloudStorageConfiguration.CONNECTION_STRING] != null)
+                        if (childNode.Attributes != null && childNode.Attributes.Count > 0 &&
+                            childNode.Attributes[AzureCloudStorageConfiguration.CONNECTION_STRING] != null)
                         {
                             value = childNode.Attributes[AzureCloudStorageConfiguration.CONNECTION_STRING].Value;
 
