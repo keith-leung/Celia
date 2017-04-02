@@ -12,8 +12,18 @@ using System.Threading.Tasks;
 
 namespace SharpCC.UtilityFramework.AzureStorage
 {
-    public class AzureCloudStorageContext
+    public class AzureCloudStorageContext : IAzureCloudStorageContext
     {
+        public AzureCloudStorageContext(IAzureCloudStorageConfiguration configuration)
+        {
+            m_configuration = configuration;
+
+            this.Build();
+        }
+
+        private IAzureCloudStorageConfiguration m_configuration = null;
+
+        /*
         public AzureCloudStorageContext() :
             this(m_azureConfiguration.AzureStorageAccountConnection,
                 m_azureConfiguration.AzureBlobAccountConnection,
@@ -56,27 +66,28 @@ namespace SharpCC.UtilityFramework.AzureStorage
             this.Build();
         }
 
-        #region init
         static AzureCloudStorageContext()
         {
             try
             {
-                m_azureConfiguration = System.Configuration.ConfigurationManager.GetSection("azureStorages") as AzureCloudStorageConfiguration;
+                m_azureConfiguration = System.Configuration.ConfigurationManager.GetSection("azureStorages") as AppConfigAzureCloudStorageConfiguration;
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex.Message);
             }
         }
+        */
 
-        private static AzureCloudStorageConfiguration m_azureConfiguration = null;
+        //private static AppConfigAzureCloudStorageConfiguration m_azureConfiguration = null;
 
-        private string m_azureStorageAccountConnection = string.Empty;
-        private string m_azureBlobAccountConnection = string.Empty;
-        private string m_azureFileAccountConnection = string.Empty;
-        private string m_azureQueueAccountConnection = string.Empty;
-        private string m_azureTableAccountConnection = string.Empty;
+        //private string m_azureStorageAccountConnection = string.Empty;
+        //private string m_azureBlobAccountConnection = string.Empty;
+        //private string m_azureFileAccountConnection = string.Empty;
+        //private string m_azureQueueAccountConnection = string.Empty;
+        //private string m_azureTableAccountConnection = string.Empty;
 
+        #region init
         private void Build()
         {
             this.BuildStorage();
@@ -91,7 +102,8 @@ namespace SharpCC.UtilityFramework.AzureStorage
             if (m_azureStorageAccount == null)
             {
                 m_azureStorageAccount = CloudStorageAccount.Parse(
-                    m_azureStorageAccountConnection);
+                    this.AzureStorageAccountConnection);
+                //m_azureStorageAccountConnection);
             }
         }
 
@@ -99,11 +111,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
         {
             this.BuildStorage();
 
-            if (!this.m_azureStorageAccountConnection.Equals(
-                this.m_azureBlobAccountConnection))
+            if (!this.AzureStorageAccountConnection.Equals(
+                this.AzureBlobAccountConnection))
             {
                 m_azureBlobStorageAccount = CloudStorageAccount.Parse(
-                    this.m_azureBlobAccountConnection);
+                    this.AzureBlobAccountConnection);
                 return;
             }
             else
@@ -115,11 +127,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
         {
             this.BuildStorage();
 
-            if (!this.m_azureStorageAccountConnection.Equals(
-                this.m_azureFileAccountConnection))
+            if (!this.AzureStorageAccountConnection.Equals(
+                this.AzureFileAccountConnection))
             {
                 m_azureFileStorageAccount = CloudStorageAccount.Parse(
-                    this.m_azureFileAccountConnection);
+                    this.AzureFileAccountConnection);
                 return;
             }
             else
@@ -131,11 +143,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
         {
             this.BuildStorage();
 
-            if (!this.m_azureStorageAccountConnection.Equals(
-                this.m_azureQueueAccountConnection))
+            if (!this.AzureStorageAccountConnection.Equals(
+                this.AzureQueueAccountConnection))
             {
                 m_azureQueueStorageAccount = CloudStorageAccount.Parse(
-                    this.m_azureQueueAccountConnection);
+                    this.AzureQueueAccountConnection);
                 return;
             }
 
@@ -147,11 +159,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
         {
             this.BuildStorage();
 
-            if (!this.m_azureStorageAccountConnection.Equals(
-                this.m_azureTableAccountConnection))
+            if (!this.AzureStorageAccountConnection.Equals(
+                this.AzureTableAccountConnection))
             {
                 m_azureTableStorageAccount = CloudStorageAccount.Parse(
-                    this.m_azureTableAccountConnection);
+                    this.AzureTableAccountConnection);
                 return;
             }
             else
@@ -162,50 +174,50 @@ namespace SharpCC.UtilityFramework.AzureStorage
 
         public string AzureBlobAccountConnection
         {
-            get { return this.m_azureBlobAccountConnection; }
+            get { return this.m_configuration.AzureBlobAccountConnection; }
             set
             {
-                this.m_azureBlobAccountConnection = value;
+                this.m_configuration.AzureBlobAccountConnection = value;
                 this.BuildBlob();
             }
         }
 
         public string AzureFileAccountConnection
         {
-            get { return this.m_azureFileAccountConnection; }
+            get { return this.m_configuration.AzureFileAccountConnection; }
             set
             {
-                this.m_azureFileAccountConnection = value;
+                this.m_configuration.AzureFileAccountConnection = value;
                 this.BuildFile();
             }
         }
 
         public string AzureQueueAccountConnection
         {
-            get { return this.m_azureQueueAccountConnection; }
+            get { return this.m_configuration.AzureQueueAccountConnection; }
             set
             {
-                this.m_azureQueueAccountConnection = value;
+                this.m_configuration.AzureQueueAccountConnection = value;
                 this.BuildQueue();
             }
         }
 
         public string AzureTableAccountConnection
         {
-            get { return this.m_azureTableAccountConnection; }
+            get { return this.m_configuration.AzureTableAccountConnection; }
             set
             {
-                this.m_azureTableAccountConnection = value;
+                this.m_configuration.AzureTableAccountConnection = value;
                 this.BuildTable();
             }
         }
 
         public string AzureStorageAccountConnection
         {
-            get { return this.m_azureStorageAccountConnection; }
+            get { return this.m_configuration.AzureStorageAccountConnection; }
             set
             {
-                this.m_azureStorageAccountConnection = value;
+                this.m_configuration.AzureStorageAccountConnection = value;
                 this.Build();
             }
         }

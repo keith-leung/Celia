@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace SharpCC.UtilityFramework.AzureLogs
+namespace SharpCC.UtilityFramework.Loggings.AzureLogs
 {
-    public class AzureLoggingConfiguration
+    public class AppConfigAzureLoggingConfiguration : IAzureLoggingConfiguration
     {
         public const string AZURE_LOGGING_CONFIG_NODES = "azureLoggings";
 
@@ -24,13 +24,7 @@ namespace SharpCC.UtilityFramework.AzureLogs
 
         public const string CONNECTION_STRING = "value";
 
-        internal List<AzureLoggingConnectionString> ConnectionStrings
-        {
-            get { return this.m_connectionStrings; }
-        }
-
-        private List<AzureLoggingConnectionString> m_connectionStrings
-            = new List<AzureLoggingConnectionString>();
+        internal List<AzureLoggingConnectionString> ConnectionStrings { get; } = new List<AzureLoggingConnectionString>();
 
         private AzureLoggingConnectionString m_defaultConnectionString = null;
 
@@ -57,19 +51,19 @@ namespace SharpCC.UtilityFramework.AzureLogs
 
         public void Build()
         {
-            if (m_connectionStrings.Any(
+            if (ConnectionStrings.Any(
                 m => m.Runtime == ConfigSectionRuntimeEnum.FORCE))
             {//如果是强制使用，那么就使用这个节点
-                m_defaultConnectionString = m_connectionStrings.First(
+                m_defaultConnectionString = ConnectionStrings.First(
                     m => m.Runtime == ConfigSectionRuntimeEnum.FORCE);
             }
             else
             {
 #if DEBUG
-                if (m_connectionStrings.Any(
+                if (ConnectionStrings.Any(
                     m => m.Runtime == ConfigSectionRuntimeEnum.DEBUG))
                 {
-                    m_defaultConnectionString = m_connectionStrings.First(
+                    m_defaultConnectionString = ConnectionStrings.First(
                         m => m.Runtime == ConfigSectionRuntimeEnum.DEBUG);
                 }
 #else
@@ -81,18 +75,18 @@ namespace SharpCC.UtilityFramework.AzureLogs
                 } 
 #endif
                 if (m_defaultConnectionString == null //如果ConnectionString仍然为空
-                    && m_connectionStrings.Any(
+                    && ConnectionStrings.Any(
                    m => string.IsNullOrEmpty(m.Key)))
                 {
-                    m_defaultConnectionString = m_connectionStrings.First(
+                    m_defaultConnectionString = ConnectionStrings.First(
                         m => string.IsNullOrEmpty(m.Key));
                 }
 
                 if (m_defaultConnectionString == null //如果ConnectionString仍然为空
-                    && m_connectionStrings.Any(
+                    && ConnectionStrings.Any(
                    m => string.IsNullOrEmpty(m.Key)))
                 {//随便取一个
-                    m_defaultConnectionString = m_connectionStrings.FirstOrDefault();
+                    m_defaultConnectionString = ConnectionStrings.FirstOrDefault();
                 }
             }
             if (this.m_defaultConnectionString != null &&

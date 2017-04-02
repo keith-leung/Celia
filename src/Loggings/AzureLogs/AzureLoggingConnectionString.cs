@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpCC.UtilityFramework.AzureLogs
+namespace SharpCC.UtilityFramework.Loggings.AzureLogs
 {
-    internal class AzureLoggingConnectionString
+    public class AzureLoggingConnectionString
     {
         public ConfigSectionRuntimeEnum Runtime
         {
             get;
-            internal set;
+            set;
         }
 
         /// <summary>

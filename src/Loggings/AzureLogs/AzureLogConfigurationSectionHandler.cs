@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace SharpCC.UtilityFramework.AzureLogs
+namespace SharpCC.UtilityFramework.Loggings.AzureLogs
 {
     public class AzureLogConfigurationSectionHandler : IConfigurationSectionHandler
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            AzureLoggingConfiguration config = new AzureLoggingConfiguration();
+            AppConfigAzureLoggingConfiguration config = new AppConfigAzureLoggingConfiguration();
 
-            if (section.Name.Equals(AzureLoggingConfiguration.AZURE_LOGGING_CONFIG_NODES,
+            if (section.Name.Equals(AppConfigAzureLoggingConfiguration.AZURE_LOGGING_CONFIG_NODES,
                 StringComparison.InvariantCultureIgnoreCase))
             {
                 foreach (XmlNode childNode in section.ChildNodes)
@@ -28,26 +28,26 @@ namespace SharpCC.UtilityFramework.AzureLogs
                         AzureLoggingConnectionString connStr = new AzureLoggingConnectionString();
 
                         if (childNode.Attributes != null && childNode.Attributes.Count > 0 &&
-                            childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING] != null)
+                            childNode.Attributes[AppConfigAzureLoggingConfiguration.CONNECTION_STRING] != null)
                         {
-                            value = childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING].Value;
+                            value = childNode.Attributes[AppConfigAzureLoggingConfiguration.CONNECTION_STRING].Value;
 
-                            if (childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING_NODE_KEY] != null)
+                            if (childNode.Attributes[AppConfigAzureLoggingConfiguration.CONNECTION_STRING_NODE_KEY] != null)
                             {
-                                key = childNode.Attributes[AzureLoggingConfiguration.CONNECTION_STRING_NODE_KEY].Value;
+                                key = childNode.Attributes[AppConfigAzureLoggingConfiguration.CONNECTION_STRING_NODE_KEY].Value;
                             }
 
                             ConfigSectionRuntimeEnum rt = ConfigSectionRuntimeEnum.RELEASE;
-                            if (childNode.Attributes[AzureLoggingConfiguration.RUNTIME] != null)
+                            if (childNode.Attributes[AppConfigAzureLoggingConfiguration.RUNTIME] != null)
                             {
-                                runtime = childNode.Attributes[AzureLoggingConfiguration.RUNTIME].Value;
+                                runtime = childNode.Attributes[AppConfigAzureLoggingConfiguration.RUNTIME].Value;
                                 if (!string.IsNullOrEmpty(runtime) && runtime.Equals(
-                                    AzureLoggingConfiguration.RUNTIME_DEBUG, StringComparison.InvariantCultureIgnoreCase))
+                                    AppConfigAzureLoggingConfiguration.RUNTIME_DEBUG, StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     rt = ConfigSectionRuntimeEnum.DEBUG;
                                 }
                                 else if (!string.IsNullOrEmpty(runtime) && runtime.Equals(
-                                   AzureLoggingConfiguration.RUNTIME_FORCE, StringComparison.InvariantCultureIgnoreCase))
+                                   AppConfigAzureLoggingConfiguration.RUNTIME_FORCE, StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     rt = ConfigSectionRuntimeEnum.FORCE;
                                 }
@@ -57,9 +57,9 @@ namespace SharpCC.UtilityFramework.AzureLogs
                             connStr.Key = key;
                             connStr.AzureStorageAccountConnection = value;
 
-                            if (childNode.Attributes[AzureLoggingConfiguration.LOGGER_NAME] != null)
+                            if (childNode.Attributes[AppConfigAzureLoggingConfiguration.LOGGER_NAME] != null)
                             {
-                                connStr.AzureLoggerName = childNode.Attributes[AzureLoggingConfiguration.LOGGER_NAME].Value;
+                                connStr.AzureLoggerName = childNode.Attributes[AppConfigAzureLoggingConfiguration.LOGGER_NAME].Value;
                             }
 
                             config.ConnectionStrings.Add(connStr);

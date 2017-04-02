@@ -12,9 +12,9 @@ namespace SharpCC.UtilityFramework.AzureStorage
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            AzureCloudStorageConfiguration config = new AzureCloudStorageConfiguration();
+            AppConfigAzureCloudStorageConfiguration config = new AppConfigAzureCloudStorageConfiguration();
 
-            if (section.Name.Equals(AzureCloudStorageConfiguration.AZURE_STORAGE_CONFIG_NODES,
+            if (section.Name.Equals(AppConfigAzureCloudStorageConfiguration.AZURE_STORAGE_CONFIG_NODES,
                StringComparison.InvariantCultureIgnoreCase))
             {
                 foreach (XmlNode childNode in section.ChildNodes)
@@ -28,26 +28,26 @@ namespace SharpCC.UtilityFramework.AzureStorage
                         AzureStorageConnectionString connStr = new AzureStorageConnectionString();
 
                         if (childNode.Attributes != null && childNode.Attributes.Count > 0 &&
-                            childNode.Attributes[AzureCloudStorageConfiguration.CONNECTION_STRING] != null)
+                            childNode.Attributes[AppConfigAzureCloudStorageConfiguration.CONNECTION_STRING] != null)
                         {
-                            value = childNode.Attributes[AzureCloudStorageConfiguration.CONNECTION_STRING].Value;
+                            value = childNode.Attributes[AppConfigAzureCloudStorageConfiguration.CONNECTION_STRING].Value;
 
-                            if (childNode.Attributes[AzureCloudStorageConfiguration.CONNECTION_STRING_NODE_KEY] != null)
+                            if (childNode.Attributes[AppConfigAzureCloudStorageConfiguration.CONNECTION_STRING_NODE_KEY] != null)
                             {
-                                key = childNode.Attributes[AzureCloudStorageConfiguration.CONNECTION_STRING_NODE_KEY].Value;
+                                key = childNode.Attributes[AppConfigAzureCloudStorageConfiguration.CONNECTION_STRING_NODE_KEY].Value;
                             }
 
                             ConfigSectionRuntimeEnum rt = ConfigSectionRuntimeEnum.RELEASE;
-                            if (childNode.Attributes[AzureCloudStorageConfiguration.RUNTIME] != null)
+                            if (childNode.Attributes[AppConfigAzureCloudStorageConfiguration.RUNTIME] != null)
                             {
-                                runtime = childNode.Attributes[AzureCloudStorageConfiguration.RUNTIME].Value;
+                                runtime = childNode.Attributes[AppConfigAzureCloudStorageConfiguration.RUNTIME].Value;
                                 if (!string.IsNullOrEmpty(runtime) && runtime.Equals(
-                                    AzureCloudStorageConfiguration.RUNTIME_DEBUG, StringComparison.InvariantCultureIgnoreCase))
+                                    AppConfigAzureCloudStorageConfiguration.RUNTIME_DEBUG, StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     rt = ConfigSectionRuntimeEnum.DEBUG;
                                 }
                                 else if (!string.IsNullOrEmpty(runtime) && runtime.Equals(
-                                   AzureCloudStorageConfiguration.RUNTIME_FORCE, StringComparison.InvariantCultureIgnoreCase))
+                                   AppConfigAzureCloudStorageConfiguration.RUNTIME_FORCE, StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     rt = ConfigSectionRuntimeEnum.FORCE;
                                 }
@@ -61,19 +61,19 @@ namespace SharpCC.UtilityFramework.AzureStorage
                             {
                                 foreach (XmlNode child in childNode.ChildNodes)
                                 {
-                                    if (child.Name.Equals(AzureCloudStorageConfiguration.BLOB_NODENAME,
+                                    if (child.Name.Equals(AppConfigAzureCloudStorageConfiguration.BLOB_NODENAME,
                                         StringComparison.InvariantCultureIgnoreCase)
                                         && section.Attributes["value"] != null)
                                         connStr.AzureBlobAccountConnection = section.Attributes["value"].Value;
-                                    if (child.Name.Equals(AzureCloudStorageConfiguration.QUEUE_NODENAME,
+                                    if (child.Name.Equals(AppConfigAzureCloudStorageConfiguration.QUEUE_NODENAME,
                                         StringComparison.InvariantCultureIgnoreCase)
                                         && section.Attributes["value"] != null)
                                         connStr.AzureQueueAccountConnection = section.Attributes["value"].Value;
-                                    if (child.Name.Equals(AzureCloudStorageConfiguration.TABLE_NODENAME,
+                                    if (child.Name.Equals(AppConfigAzureCloudStorageConfiguration.TABLE_NODENAME,
                                         StringComparison.InvariantCultureIgnoreCase)
                                         && section.Attributes["value"] != null)
                                         connStr.AzureTableAccountConnection = section.Attributes["value"].Value;
-                                    if (child.Name.Equals(AzureCloudStorageConfiguration.FILE_NODENAME,
+                                    if (child.Name.Equals(AppConfigAzureCloudStorageConfiguration.FILE_NODENAME,
                                         StringComparison.InvariantCultureIgnoreCase)
                                         && section.Attributes["value"] != null)
                                         connStr.AzureFileAccountConnection = section.Attributes["value"].Value;

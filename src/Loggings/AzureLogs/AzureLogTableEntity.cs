@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpCC.UtilityFramework.AzureLogs
+namespace SharpCC.UtilityFramework.Loggings.AzureLogs
 {
     public class AzureLogTableEntity : TableEntity
     {
-        public AzureLogTableEntity(AzureLogType logType)
+        public AzureLogTableEntity(AzureLogType logType, string loggerName)
         {
             this.LogType = logType.ToString();
             this.CTIME = DateTime.Now;
-            this.PartitionKey = LogHelper.AzureLoggerName;// //"Log" + logType.ToString() + this.CTIME.ToString("yyyyMMddHHmmss");
+            this.PartitionKey = loggerName;// //"Log" + logType.ToString() + this.CTIME.ToString("yyyyMMddHHmmss");
             this.RowKey = this.CTIME.ToString("yyyyMMddHHmmss") + " "
                 + Environment.TickCount.ToString() + "_" + Guid.NewGuid().ToString();
         }

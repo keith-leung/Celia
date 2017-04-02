@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.4.0\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -112,15 +115,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiHelper.cs" />
-    <Compile Include="AzureLogs\AzureLogConfigurationSectionHandler.cs" />
-    <Compile Include="AzureLogs\AzureLoggingConfiguration.cs" />
-    <Compile Include="AzureLogs\AzureLoggingConnectionString.cs" />
-    <Compile Include="AzureLogs\AzureLogTableEntity.cs" />
-    <Compile Include="AzureLogs\AzureLogType.cs" />
-    <Compile Include="AzureStorage\AzureCloudStorageConfiguration.cs" />
+    <Compile Include="Loggings\AppConfigLog4NetConfiguration.cs" />
+    <Compile Include="Loggings\AzureLogs\AzureLogConfigurationSectionHandler.cs" />
+    <Compile Include="Loggings\AzureLogs\AppConfigAzureLoggingConfiguration.cs" />
+    <Compile Include="Loggings\AzureLogs\AzureLoggingConnectionString.cs" />
+    <Compile Include="Loggings\AzureLogs\AzureLogTableEntity.cs" />
+    <Compile Include="Loggings\AzureLogs\AzureLogType.cs" />
+    <Compile Include="AzureStorage\AppConfigAzureCloudStorageConfiguration.cs" />
     <Compile Include="AzureStorage\AzureCloudStorageContext.cs" />
     <Compile Include="AzureStorage\AzureStorageConfigurationSectionHandler.cs" />
     <Compile Include="AzureStorage\AzureStorageConnectionString.cs" />
+    <Compile Include="AzureStorage\IAzureCloudStorageConfiguration.cs" />
+    <Compile Include="AzureStorage\IAzureCloudStorageContext.cs" />
     <Compile Include="CSVUtility.cs" />
     <Compile Include="DbUpdateConcurrencyExceptionResolver.cs" />
     <Compile Include="DocumentDBs\DocumentDbConnectionConfiguration.cs" />
@@ -128,7 +134,15 @@
     <Compile Include="ConfigSectionRuntimeEnum.cs" />
     <Compile Include="DocumentDBs\DocumentDbConnectionString.cs" />
     <Compile Include="EnumHelper.cs" />
-    <Compile Include="LogHelper.cs" />
+    <Compile Include="Loggings\AzureLogs\IAzureLoggingConfiguration.cs" />
+    <Compile Include="Loggings\AzureTableLogTarget.cs" />
+    <Compile Include="Loggings\ConsoleAndAzureTableLogStrategy.cs" />
+    <Compile Include="Loggings\DebugConsoleLogTarget.cs" />
+    <Compile Include="Loggings\ILog4NetConfiguration.cs" />
+    <Compile Include="Loggings\ILogStrategy.cs" />
+    <Compile Include="Loggings\ILogTarget.cs" />
+    <Compile Include="Loggings\LogHelper.cs" />
+    <Compile Include="Loggings\LogHelperImpl.cs" />
     <Compile Include="NavigationProps\NavigationLoopSolvedController.cs" />
     <Compile Include="NavigationProps\NavigationLoopSolvedJsonResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

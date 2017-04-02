@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using SharpCC.UtilityFramework;
+using SharpCC.UtilityFramework.Loggings;
 
 namespace SharpCC.UtilityFramework.NavigationProps 
 {

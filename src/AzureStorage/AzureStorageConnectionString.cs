@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace SharpCC.UtilityFramework.AzureStorage
 {
-    internal class AzureStorageConnectionString
+    public class AzureStorageConnectionString
     {
-        public string Key { get; internal set; }
-        public ConfigSectionRuntimeEnum Runtime { get; internal set; }
-        public string AzureBlobAccountConnection { get; internal set; }
-        public string AzureFileAccountConnection { get; internal set; }
-        public string AzureQueueAccountConnection { get; internal set; }
-        public string AzureStorageAccountConnection { get; internal set; }
-        public string AzureTableAccountConnection { get; internal set; }
+        public string Key { get; set; }
+        public ConfigSectionRuntimeEnum Runtime { get; set; }
+        public string AzureBlobAccountConnection { get; set; }
+        public string AzureFileAccountConnection { get; set; }
+        public string AzureQueueAccountConnection { get; set; }
+        public string AzureStorageAccountConnection { get; set; }
+        public string AzureTableAccountConnection { get; set; }
 
         internal void Build()
         {

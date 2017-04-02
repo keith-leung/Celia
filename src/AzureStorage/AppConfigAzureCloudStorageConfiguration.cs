@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace SharpCC.UtilityFramework.AzureStorage
 {
-    public class AzureCloudStorageConfiguration
+    public class AppConfigAzureCloudStorageConfiguration : IAzureCloudStorageConfiguration
     {
+        public AppConfigAzureCloudStorageConfiguration()
+        {
+
+        }
+
         public const string AZURE_STORAGE_CONFIG_NODES = "azureStorages";
-
         public const string AZURE_STORAGE_NODE_NAME = "add";
-
         public const string CONNECTION_STRING_NODE_KEY = "key";
-
         public const string RUNTIME = "Runtime";
 
         public const string RUNTIME_DEBUG = "Debug";
@@ -65,6 +67,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
                     return m_defaultConnectionString.AzureBlobAccountConnection;
                 return string.Empty;
             }
+            set
+            {
+                if (m_defaultConnectionString != null)
+                    m_defaultConnectionString.AzureBlobAccountConnection = value;
+            }
         }
 
         public string AzureFileAccountConnection
@@ -74,6 +81,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
                 if (m_defaultConnectionString != null)
                     return m_defaultConnectionString.AzureFileAccountConnection;
                 return string.Empty;
+            }
+            set
+            {
+                if (m_defaultConnectionString != null)
+                    m_defaultConnectionString.AzureFileAccountConnection = value;
             }
         }
 
@@ -85,6 +97,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
                     return m_defaultConnectionString.AzureQueueAccountConnection;
                 return string.Empty;
             }
+            set
+            {
+                if (m_defaultConnectionString != null)
+                    m_defaultConnectionString.AzureQueueAccountConnection = value;
+            }
         }
 
         public string AzureStorageAccountConnection
@@ -94,6 +111,11 @@ namespace SharpCC.UtilityFramework.AzureStorage
                 if (m_defaultConnectionString != null)
                     return m_defaultConnectionString.AzureStorageAccountConnection;
                 return string.Empty;
+            }
+            set
+            {
+                if (m_defaultConnectionString != null)
+                    m_defaultConnectionString.AzureStorageAccountConnection = value;
             }
         }
 
@@ -105,7 +127,12 @@ namespace SharpCC.UtilityFramework.AzureStorage
                     return m_defaultConnectionString.AzureTableAccountConnection;
                 return string.Empty;
             }
-        }
+            set
+            {
+                if (m_defaultConnectionString != null)
+                    m_defaultConnectionString.AzureTableAccountConnection = value;
+            }
+        } 
 
         internal void Build()
         {
