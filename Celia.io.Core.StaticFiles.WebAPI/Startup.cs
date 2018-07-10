@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Celia.CloudStaticObject.API
+namespace Celia.io.Core.StaticFiles.WebAPI
 {
     public class Startup
     {

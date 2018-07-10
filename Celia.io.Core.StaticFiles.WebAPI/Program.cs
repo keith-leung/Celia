@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Celia.CloudStaticObject.API
+namespace Celia.io.Core.StaticFiles.WebAPI
 {
     public class Program
     {

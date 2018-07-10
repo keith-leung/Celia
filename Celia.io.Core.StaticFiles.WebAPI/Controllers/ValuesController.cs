@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Celia.CloudStaticObject.API.Controllers
+namespace Celia.io.Core.StaticFiles.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller

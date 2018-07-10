@@ -3,14 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCC.UtilityFramework", "src\SharpCC.UtilityFramework.csproj", "{C7B37AEA-9F4C-4308-BAC1-08C3D03E3604}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.CloudStaticObject.Entities", "Celia.CloudStaticObject.Entities\Celia.CloudStaticObject.Entities.csproj", "{4F0C6E10-2434-4EDE-8CAA-06259ECE81E2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.CloudStaticObject.Services", "Celia.CloudStaticObject.Services\Celia.CloudStaticObject.Services.csproj", "{8E30CFA3-678E-4F24-94D0-97F777D45BF5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.CloudStaticObject.API", "Celia.CloudStaticObject.API\Celia.CloudStaticObject.API.csproj", "{74E7997C-468D-477F-9CE6-4CEBAA6091E2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auths", "Auths", "{519804EE-BC90-4493-A5B0-AD765FFDA25A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StaticFiles", "StaticFiles", "{C5B0C03C-0C71-4DFC-B59E-310F382240E2}"
@@ -25,13 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticFiles.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticFiles.Services", "Celia.io.Core.StaticFiles.Services\Celia.io.Core.StaticFiles.Services.csproj", "{EB96BB58-84E5-410B-9C5F-8A01B08FE3FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudStaticObject.Entities", "CloudStaticObject.Entities\CloudStaticObject.Entities.csproj", "{1C6310D9-A299-4BAA-80AB-A59C5638D0AF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Utils", "Celia.io.Core.Utils\Celia.io.Core.Utils.csproj", "{1372A403-90BA-4AAB-8342-4FEF2078F6DE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.WeChatUtils", "Celia.io.Core.WeChatUtils\Celia.io.Core.WeChatUtils.csproj", "{0EC0F0E1-3EE2-4E12-B40A-59720DB22CE3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.NET.WeChatUtils", "Celia.io.NET.WeChatUtils\Celia.io.NET.WeChatUtils.csproj", "{598871DE-6A14-4F24-A536-5858121526E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Celia.io.Core.StaticFiles.WebAPI", "Celia.io.Core.StaticFiles.WebAPI\Celia.io.Core.StaticFiles.WebAPI.csproj", "{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,22 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C7B37AEA-9F4C-4308-BAC1-08C3D03E3604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7B37AEA-9F4C-4308-BAC1-08C3D03E3604}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7B37AEA-9F4C-4308-BAC1-08C3D03E3604}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7B37AEA-9F4C-4308-BAC1-08C3D03E3604}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F0C6E10-2434-4EDE-8CAA-06259ECE81E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F0C6E10-2434-4EDE-8CAA-06259ECE81E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F0C6E10-2434-4EDE-8CAA-06259ECE81E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F0C6E10-2434-4EDE-8CAA-06259ECE81E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E30CFA3-678E-4F24-94D0-97F777D45BF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E30CFA3-678E-4F24-94D0-97F777D45BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E30CFA3-678E-4F24-94D0-97F777D45BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E30CFA3-678E-4F24-94D0-97F777D45BF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74E7997C-468D-477F-9CE6-4CEBAA6091E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74E7997C-468D-477F-9CE6-4CEBAA6091E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74E7997C-468D-477F-9CE6-4CEBAA6091E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74E7997C-468D-477F-9CE6-4CEBAA6091E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13576992-0674-4F5D-8297-3371CDB0B460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13576992-0674-4F5D-8297-3371CDB0B460}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13576992-0674-4F5D-8297-3371CDB0B460}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,10 +51,6 @@ Global
 		{EB96BB58-84E5-410B-9C5F-8A01B08FE3FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB96BB58-84E5-410B-9C5F-8A01B08FE3FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB96BB58-84E5-410B-9C5F-8A01B08FE3FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C6310D9-A299-4BAA-80AB-A59C5638D0AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C6310D9-A299-4BAA-80AB-A59C5638D0AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C6310D9-A299-4BAA-80AB-A59C5638D0AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C6310D9-A299-4BAA-80AB-A59C5638D0AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1372A403-90BA-4AAB-8342-4FEF2078F6DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1372A403-90BA-4AAB-8342-4FEF2078F6DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1372A403-90BA-4AAB-8342-4FEF2078F6DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -91,6 +63,10 @@ Global
 		{598871DE-6A14-4F24-A536-5858121526E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{598871DE-6A14-4F24-A536-5858121526E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{598871DE-6A14-4F24-A536-5858121526E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +77,7 @@ Global
 		{77F1270A-62DC-4CFE-AED5-E1A06A1F257D} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
 		{CF692779-E044-4985-9CAC-A94E25F5B288} = {C5B0C03C-0C71-4DFC-B59E-310F382240E2}
 		{EB96BB58-84E5-410B-9C5F-8A01B08FE3FF} = {C5B0C03C-0C71-4DFC-B59E-310F382240E2}
+		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67} = {C5B0C03C-0C71-4DFC-B59E-310F382240E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3F10880-5EB2-4457-8B5B-E215ACDF1697}
