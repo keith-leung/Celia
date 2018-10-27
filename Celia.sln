@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auths", "Auths", "{519804EE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StaticFiles", "StaticFiles", "{C5B0C03C-0C71-4DFC-B59E-310F382240E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Auths.Entities", "Celia.io.Core.Auths.Entities\Celia.io.Core.Auths.Entities.csproj", "{13576992-0674-4F5D-8297-3371CDB0B460}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Auths.Services", "Celia.io.Core.Auths.Services\Celia.io.Core.Auths.Services.csproj", "{50DB4405-6686-45EE-8EBC-B0B1DA462ACD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Auths.WebAPI", "Celia.io.Core.Auths.WebAPI\Celia.io.Core.Auths.WebAPI.csproj", "{77F1270A-62DC-4CFE-AED5-E1A06A1F257D}"
@@ -23,7 +21,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.WeChatUtils",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.NET.WeChatUtils", "Celia.io.NET.WeChatUtils\Celia.io.NET.WeChatUtils.csproj", "{598871DE-6A14-4F24-A536-5858121526E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Celia.io.Core.StaticFiles.WebAPI", "Celia.io.Core.StaticFiles.WebAPI\Celia.io.Core.StaticFiles.WebAPI.csproj", "{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticFiles.WebAPI", "Celia.io.Core.StaticFiles.WebAPI\Celia.io.Core.StaticFiles.WebAPI.csproj", "{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.NugetServer", "Celia.io.Core.NugetServer\Celia.io.Core.NugetServer.csproj", "{3CCB0D59-D0BB-4425-A5FE-58799962F881}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Auths.Abstractions", "Celia.io.Core.Auths.Abstractions\Celia.io.Core.Auths.Abstractions.csproj", "{64748597-1BE3-445E-82C5-4D92C9F46B78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Auths.DataAccess.Dapper", "Celia.io.Core.Auths.DataAccess.Dapper\Celia.io.Core.Auths.DataAccess.Dapper.csproj", "{4C84ED85-F973-4967-B908-FED5845E03F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Auths.DataAccess.EfCore", "Celia.io.Core.Auths.DataAccess.EfCore\Celia.io.Core.Auths.DataAccess.EfCore.csproj", "{28DA37AE-E0F2-4AD5-A727-F4EDF42C1704}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.Auths.SDK", "Celia.io.Core.Auths.SDK\Celia.io.Core.Auths.SDK.csproj", "{73725DAF-28CA-40D7-9CEE-4EF938C701CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +39,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{13576992-0674-4F5D-8297-3371CDB0B460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13576992-0674-4F5D-8297-3371CDB0B460}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13576992-0674-4F5D-8297-3371CDB0B460}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13576992-0674-4F5D-8297-3371CDB0B460}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50DB4405-6686-45EE-8EBC-B0B1DA462ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{50DB4405-6686-45EE-8EBC-B0B1DA462ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50DB4405-6686-45EE-8EBC-B0B1DA462ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,17 +71,40 @@ Global
 		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CCB0D59-D0BB-4425-A5FE-58799962F881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CCB0D59-D0BB-4425-A5FE-58799962F881}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CCB0D59-D0BB-4425-A5FE-58799962F881}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CCB0D59-D0BB-4425-A5FE-58799962F881}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64748597-1BE3-445E-82C5-4D92C9F46B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64748597-1BE3-445E-82C5-4D92C9F46B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64748597-1BE3-445E-82C5-4D92C9F46B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64748597-1BE3-445E-82C5-4D92C9F46B78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C84ED85-F973-4967-B908-FED5845E03F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C84ED85-F973-4967-B908-FED5845E03F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C84ED85-F973-4967-B908-FED5845E03F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C84ED85-F973-4967-B908-FED5845E03F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28DA37AE-E0F2-4AD5-A727-F4EDF42C1704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28DA37AE-E0F2-4AD5-A727-F4EDF42C1704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28DA37AE-E0F2-4AD5-A727-F4EDF42C1704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28DA37AE-E0F2-4AD5-A727-F4EDF42C1704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73725DAF-28CA-40D7-9CEE-4EF938C701CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73725DAF-28CA-40D7-9CEE-4EF938C701CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73725DAF-28CA-40D7-9CEE-4EF938C701CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73725DAF-28CA-40D7-9CEE-4EF938C701CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{13576992-0674-4F5D-8297-3371CDB0B460} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
 		{50DB4405-6686-45EE-8EBC-B0B1DA462ACD} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
 		{77F1270A-62DC-4CFE-AED5-E1A06A1F257D} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
 		{CF692779-E044-4985-9CAC-A94E25F5B288} = {C5B0C03C-0C71-4DFC-B59E-310F382240E2}
 		{EB96BB58-84E5-410B-9C5F-8A01B08FE3FF} = {C5B0C03C-0C71-4DFC-B59E-310F382240E2}
 		{1C262C28-6B4A-4BB5-96CE-26BC760ABD67} = {C5B0C03C-0C71-4DFC-B59E-310F382240E2}
+		{64748597-1BE3-445E-82C5-4D92C9F46B78} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
+		{4C84ED85-F973-4967-B908-FED5845E03F1} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
+		{28DA37AE-E0F2-4AD5-A727-F4EDF42C1704} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
+		{73725DAF-28CA-40D7-9CEE-4EF938C701CE} = {519804EE-BC90-4493-A5B0-AD765FFDA25A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3F10880-5EB2-4457-8B5B-E215ACDF1697}
