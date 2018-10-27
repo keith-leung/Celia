@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <AssemblyName>Celia.io.Core.StaticObjects.WebAPI_Core</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+        <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2018.3.1017" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Celia.io.Core.StaticObjects.Abstractions\Celia.io.Core.StaticObjects.Abstractions.csproj" />
+      <ProjectReference Include="..\Celia.io.Core.StaticObjects.DataAccess\Celia.io.Core.StaticObjects.DataAccess.csproj" />
+      <ProjectReference Include="..\Celia.io.Core.StaticObjects.Services\Celia.io.Core.StaticObjects.Services.csproj" />
+      <ProjectReference Include="..\Celia.io.Core.Utils\Celia.io.Core.Utils.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
+    </PropertyGroup>
+
+</Project>
