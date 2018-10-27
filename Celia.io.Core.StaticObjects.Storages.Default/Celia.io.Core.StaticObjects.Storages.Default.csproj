@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="aliyun.oss.sdk.core" Version="2.5.3" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Celia.io.Core.StaticObjects.Abstractions\Celia.io.Core.StaticObjects.Abstractions.csproj" />
+    <ProjectReference Include="..\Celia.io.Core.StaticObjects.Services\Celia.io.Core.StaticObjects.Services.csproj" />
+  </ItemGroup>
+
+</Project>

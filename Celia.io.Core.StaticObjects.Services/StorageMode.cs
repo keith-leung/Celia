@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BR.StaticObjects.Services
+namespace Celia.io.Core.StaticObjects.Services
 {
     public enum StorageMode
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Celia.io.Core.StaticObjects.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace BR.StaticObjects.Services.Impl
+namespace Celia.io.Core.StaticObjects.Services.Impl
 {
     public class StorageService : IStorageService
     {

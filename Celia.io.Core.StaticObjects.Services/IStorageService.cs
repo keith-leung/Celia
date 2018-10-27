@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BR.StaticObjects.Services
+namespace Celia.io.Core.StaticObjects.Services
 {
     public interface IStorageService
     {

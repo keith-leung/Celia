@@ -7,7 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Celia.io.Core.Utils;
 using Celia.io.Core.StaticObjects.Abstractions;
-using BR.StaticObjects.Services;
+using Celia.io.Core.StaticObjects.Services;
 using BR.StaticObjects.WebAPI_Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticObjects
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticObjects.WebAPI_Core", "Celia.io.Core.StaticObjects.WebAPI_Core\Celia.io.Core.StaticObjects.WebAPI_Core.csproj", "{D49D62CC-8FB2-4E3E-BEBA-04C146A80687}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Celia.io.Core.StaticObjects.Storages.Default", "Celia.io.Core.StaticObjects.Storages.Default\Celia.io.Core.StaticObjects.Storages.Default.csproj", "{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{D49D62CC-8FB2-4E3E-BEBA-04C146A80687}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D49D62CC-8FB2-4E3E-BEBA-04C146A80687}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D49D62CC-8FB2-4E3E-BEBA-04C146A80687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +112,7 @@ Global
 		{27EC687C-5FD4-4463-B7D4-2E7B1FE6C248} = {9E011216-82BB-41AD-A292-34A3611BB7BB}
 		{0061F72C-DB05-4A8C-9B74-0A0D899D0722} = {9E011216-82BB-41AD-A292-34A3611BB7BB}
 		{D49D62CC-8FB2-4E3E-BEBA-04C146A80687} = {9E011216-82BB-41AD-A292-34A3611BB7BB}
+		{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B} = {9E011216-82BB-41AD-A292-34A3611BB7BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3F10880-5EB2-4457-8B5B-E215ACDF1697}

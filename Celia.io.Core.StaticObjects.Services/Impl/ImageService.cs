@@ -7,7 +7,7 @@ using Celia.io.Core.StaticObjects.Abstractions;
 using Celia.io.Core.StaticObjects.Abstractions.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace BR.StaticObjects.Services.Impl
+namespace Celia.io.Core.StaticObjects.Services.Impl
 {
     public class ImageService : IImageService
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BR.StaticObjects.Services.Impl
+namespace Celia.io.Core.StaticObjects.Services.Impl
 {
     class DefaultStorageInfoImpl : IStorageInfo
     {

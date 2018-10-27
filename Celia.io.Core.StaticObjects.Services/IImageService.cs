@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace BR.StaticObjects.Services
+namespace Celia.io.Core.StaticObjects.Services
 {
     public interface IImageService
     {
