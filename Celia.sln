@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticObjects
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticObjects.WebAPI_Core", "Celia.io.Core.StaticObjects.WebAPI_Core\Celia.io.Core.StaticObjects.WebAPI_Core.csproj", "{D49D62CC-8FB2-4E3E-BEBA-04C146A80687}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Celia.io.Core.StaticObjects.Storages.Default", "Celia.io.Core.StaticObjects.Storages.Default\Celia.io.Core.StaticObjects.Storages.Default.csproj", "{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celia.io.Core.StaticObjects.Storages.Default", "Celia.io.Core.StaticObjects.Storages.Default\Celia.io.Core.StaticObjects.Storages.Default.csproj", "{CA7CF8DF-FFE6-44DD-8E65-9FC2797F4C6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

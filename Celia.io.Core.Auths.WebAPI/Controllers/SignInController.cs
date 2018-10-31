@@ -19,6 +19,7 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class SignInController : ControllerBase
     {
         private readonly ILogger<SignInController> _logger;
@@ -46,61 +47,92 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
         }
 
         [HttpGet("accesstoken")]
-        public async Task<string> AccessToken()
+        public async Task<ActionResponse<string>> AccessToken()
         {
             try
             {
                 DateTimeOffset offset = new DateTimeOffset(DateTime.Now);
                 offset = offset.AddDays(7); //7天内过期 
 
-                return _signInManager.GetToken(Issuer, Audience, _signingCredentials,
-                    HttpContext.User.Identity.Name, HttpContext.User.Claims, offset);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpGet("refreshtoken")]
-        public async Task<string> RefreshToken([FromQuery] [Required] string token)
-        {
-            try
-            {
-                DateTimeOffset offset = new DateTimeOffset(DateTime.Now);
-                offset = offset.AddDays(7); //7天内过期 
-
-                var result = _signInManager.RefreshToken(token, Issuer, Audience, _signingCredentials,
-                          HttpContext.User.Identity.Name, HttpContext.User.Claims, offset);
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpGet("validatetoken")]
-        public async Task<TokenResponse> ValidateToken([FromQuery] [Required] string token)
-        {
-            try
-            {
-                return new TokenResponse()
+                return new ActionResponse<string>()
                 {
-                    IsValid = true,
-                    IsRefreshRequired = (false == _signInManager.ValidateToken(token))
+                    Status = 200,
+                    Data = _signInManager.GetToken(Issuer, Audience, _signingCredentials,
+                    HttpContext.User.Identity.Name, HttpContext.User.Claims, offset)
                 };
             }
             catch (Exception ex)
             {
-                return new TokenResponse() { IsValid = false, IsRefreshRequired = true };
+                _logger.LogError(ex, "SignInController.accesstoken");
+                return new ActionResponse<string>()
+                {
+                    Status = (int)System.Net.HttpStatusCode.ExpectationFailed,
+                    ErrorMessage = ex.Message,
+                };
+            }
+        }
+
+        //[AllowAnonymous]
+        [HttpPost("refreshtoken")]
+        public async Task<ActionResponse<string>> RefreshToken([FromBody] LoginRequest request)
+        {
+            try
+            {
+                DateTimeOffset offset = new DateTimeOffset(DateTime.Now);
+                offset = offset.AddDays(7); //7天内过期 
+                string userId = request.Key;
+                string token = request.Value;
+                return new ActionResponse<string>()
+                {
+                    Status = 200,
+                    Data = _signInManager.RefreshToken(token, Issuer, Audience, _signingCredentials,
+                          userId, HttpContext.User.Claims, offset)
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SignInController.refreshtoken");
+                return new ActionResponse<string>()
+                {
+                    Status = (int)System.Net.HttpStatusCode.ExpectationFailed,
+                    ErrorMessage = ex.Message,
+                };
+            }
+        }
+
+        [HttpGet("validatetoken")]
+        public async Task<ActionResponse<string>> ValidateToken([FromQuery] [Required] string token)
+        {
+            try
+            {
+                var response = new ActionResponse<string>();
+
+                if (_signInManager.ValidateToken(token))
+                {
+                    response.Status = 200;
+                    response.Data = token;
+
+                    return response;
+                }
+
+                response.Status = 401;
+                response.ErrorMessage = "Token is invalid.";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SignInController.refreshtoken");
+                return new ActionResponse<string>()
+                {
+                    Status = (int)System.Net.HttpStatusCode.ExpectationFailed,
+                    ErrorMessage = ex.Message,
+                };
             }
         }
 
         [HttpPost("loginbyusername")]
         [AllowAnonymous]
-        public async Task<LoginResponse> LoginByUserName([FromBody] LoginRequest request)
+        public async Task<ActionResponse<LoginResponse>> LoginByUserName([FromBody] LoginRequest request)
         {
             var username = request.Key;
             string password = request.Value;
@@ -113,16 +145,43 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
                 {
                     string token = await this.GetToken(user);
 
-                    return new LoginResponse()
+                    return new ActionResponse<LoginResponse>()
                     {
-                        StatusCode = 200,
-                        AccessToken = token,
-                        User = user
+                        Status = 200,
+                        Data = new LoginResponse()
+                        {
+                            AccessToken = token,
+                            User = user,
+                        },
+                    };
+                }
+                else if (signInResult.IsLockedOut)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.Locked, //423
+                        ErrorMessage = "User is locked. Please contact Administrator for unlock. "
+                    };
+                }
+                else if (signInResult.IsNotAllowed)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.MethodNotAllowed, //405
+                        ErrorMessage = "User is not allowed. "
+                    };
+                }
+                else if (signInResult.RequiresTwoFactor)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.ExpectationFailed, //417
+                        ErrorMessage = "Two-Factor sign-in is required. "
                     };
                 }
             }
 
-            return new LoginResponse() { StatusCode = 401 };
+            return new ActionResponse<LoginResponse>() { Status = 401 };
         }
 
         private async Task<string> GetToken(ApplicationUser user)
@@ -150,7 +209,7 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
 
         [HttpPost("loginbyuserid")]
         [AllowAnonymous]
-        public async Task<LoginResponse> LoginByUserId([FromBody] LoginRequest request)
+        public async Task<ActionResponse<LoginResponse>> LoginByUserId([FromBody] LoginRequest request)
         {
             var userid = request.Key;
             string password = request.Value;
@@ -164,21 +223,48 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
                 {
                     string token = await this.GetToken(user);
 
-                    return new LoginResponse()
+                    return new ActionResponse<LoginResponse>()
                     {
-                        StatusCode = 200,
-                        AccessToken = token,
-                        User = user
+                        Status = 200,
+                        Data = new LoginResponse()
+                        {
+                            User = user,
+                            AccessToken = token,
+                        },
+                    };
+                }
+                else if (signInResult.IsLockedOut)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.Locked, //423
+                        ErrorMessage = "User is locked. Please contact Administrator for unlock. "
+                    };
+                }
+                else if (signInResult.IsNotAllowed)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.MethodNotAllowed, //405
+                        ErrorMessage = "User is not allowed. "
+                    };
+                }
+                else if (signInResult.RequiresTwoFactor)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.ExpectationFailed, //417
+                        ErrorMessage = "Two-Factor sign-in is required. "
                     };
                 }
             }
 
-            return new LoginResponse() { StatusCode = 401 };
+            return new ActionResponse<LoginResponse>() { Status = 401 };
         }
 
         [HttpPost("loginbyemail")]
         [AllowAnonymous]
-        public async Task<LoginResponse> LoginByEmail([FromBody] LoginRequest request)
+        public async Task<ActionResponse<LoginResponse>> LoginByEmail([FromBody] LoginRequest request)
         {
             var email = request.Key;
             string password = request.Value;
@@ -192,49 +278,117 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
                 {
                     string token = await this.GetToken(user);
 
-                    return new LoginResponse()
+                    return new ActionResponse<LoginResponse>()
                     {
-                        StatusCode = 200,
-                        AccessToken = token,
-                        User = user
+                        Status = 200,
+                        Data = new LoginResponse()
+                        {
+                            AccessToken = token,
+                            User = user,
+                        },
+                    };
+                }
+                else if (signInResult.IsLockedOut)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.Locked, //423
+                        ErrorMessage = "User is locked. Please contact Administrator for unlock. "
+                    };
+                }
+                else if (signInResult.IsNotAllowed)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.MethodNotAllowed, //405
+                        ErrorMessage = "User is not allowed. "
+                    };
+                }
+                else if (signInResult.RequiresTwoFactor)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.ExpectationFailed, //417
+                        ErrorMessage = "Two-Factor sign-in is required. "
                     };
                 }
             }
 
-            return new LoginResponse() { StatusCode = 401 };
+            return new ActionResponse<LoginResponse>() { Status = 401 };
         }
 
         [HttpPost("externallogin")]
         [AllowAnonymous]
-        public async Task<LoginResponse> ExternalLogin([FromBody] LoginRequest request)
+        public async Task<ActionResponse<LoginResponse>> ExternalLogin([FromBody] LoginRequest request)
         {
-            var loginProvider = request.Key;
-            string providerKey = request.Value;
-
-            var signInResult = await _signInManager.ExternalLoginSignInAsync(
-                loginProvider, providerKey, false);
-
-            if (signInResult.Succeeded)
+            try
             {
-                var user = await _userManager.FindByLoginAsync(loginProvider, providerKey);
-                string token = await this.GetToken(user);
+                var loginProvider = request.Key;
+                string providerKey = request.Value;
+                _logger.LogInformation($"loginProvider:{loginProvider},providerKey:{providerKey}");
 
-                return new LoginResponse()
+                var signInResult = await _signInManager.ExternalLoginSignInAsync(
+                    loginProvider, providerKey, false);
+                _logger.LogInformation($"signInResult:{signInResult.Succeeded}");
+
+                if (signInResult.Succeeded)
                 {
-                    StatusCode = 200,
-                    AccessToken = token,
-                    User = user
-                };
+                    var user = await _userManager.FindByLoginAsync(loginProvider, providerKey);
+                    string token = await this.GetToken(user);
+                    _logger.LogInformation($"tokenresponse:{token}");
+
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = 200,
+                        Data = new LoginResponse()
+                        {
+                            AccessToken = token,
+                            User = user,
+                        },
+                    };
+                }
+                else if (signInResult.IsLockedOut)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.Locked, //423
+                        ErrorMessage = "User is locked. Please contact Administrator for unlock. "
+                    };
+                }
+                else if (signInResult.IsNotAllowed)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.MethodNotAllowed, //405
+                        ErrorMessage = "User is not allowed. "
+                    };
+                }
+                else if (signInResult.RequiresTwoFactor)
+                {
+                    return new ActionResponse<LoginResponse>()
+                    {
+                        Status = (int)System.Net.HttpStatusCode.ExpectationFailed, //417
+                        ErrorMessage = "Two-Factor sign-in is required. "
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SignInController.externallogin", request);
             }
 
-            return new LoginResponse() { StatusCode = 401 };
+            return new ActionResponse<LoginResponse>() { Status = 401 };
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpPost("signout")]
-        public async Task SignOut()
+        public async Task<ActionResponse<string>> SignOut()
         {
-            await _signInManager.SignOutAsync();
+            return await _signInManager.SignOutAsync()
+                .ContinueWith((o) =>
+                {
+                    return new ActionResponse<string>() { Status = 200 };
+                });
         }
     }
 }

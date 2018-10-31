@@ -124,7 +124,7 @@ namespace Celia.io.Core.Auths.DataAccess.Dapper
 
             return _connection.QueryAsync<ApplicationRole>(command)
                 .ContinueWith(a =>
-                { 
+                {
                     if (a.IsCompleted && a.Result != null)
                         return a.Result.AsQueryable();
                     return (new List<ApplicationRole>()).AsQueryable();
@@ -134,13 +134,18 @@ namespace Celia.io.Core.Auths.DataAccess.Dapper
         public Task<IList<Claim>> GetClaimsAsync(ApplicationRole role, CancellationToken cancellationToken)
         {
             const string command = "SELECT * " +
-                                   "FROM auths_role_claims;";
+                                   "FROM auths_role_claims WHERE RoleId = @RoleId;";
 
-            return _connection.QueryAsync<ApplicationRoleClaim>(command)
+            return _connection.QueryAsync<ApplicationRoleClaim>(command,
+                    new
+                    {
+                        RoleId = role.Id
+                    }
+                )
                 .ContinueWith<IList<Claim>>(action =>
                 {
                     List<Claim> claims = new List<Claim>();
-                    if (action.IsCompleted && action.Result != null)
+                    if (action.IsCompleted && !action.IsFaulted && action.Result != null)
                     {
                         foreach (var c in action.Result)
                         {

@@ -66,7 +66,8 @@ namespace Celia.io.Core.Auths.DataAccess.Dapper
             return Task.FromResult<IList<UserLoginInfo>>(userLogins.Select(e => new UserLoginInfo(e.LoginProvider, e.ProviderKey, e.ProviderDisplayName)).ToList());
         }
 
-        public Task<ApplicationUser> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
+        public Task<ApplicationUser> FindByLoginAsync(string loginProvider,
+            string providerKey, CancellationToken cancellationToken)
         {
             string[] command =
             {
@@ -76,7 +77,7 @@ namespace Celia.io.Core.Auths.DataAccess.Dapper
             };
 
             string userId = Task.Run(() =>
-            _connection.QuerySingleOrDefaultAsync<string>(
+            _connection.QueryFirstOrDefaultAsync<string>(
                 command[0], new
                 {
                     LoginProvider = loginProvider,
@@ -85,6 +86,9 @@ namespace Celia.io.Core.Auths.DataAccess.Dapper
 
             if (string.IsNullOrEmpty(userId))
             {
+                System.Diagnostics.Trace.TraceError("UserLoginFailed: no userid " + command[0]);
+                //throw new Exception("UserLoginFailed: no userid " + command[0]);
+                //DEBUG
                 return Task.FromResult<ApplicationUser>(null);
             }
 
@@ -92,8 +96,18 @@ namespace Celia.io.Core.Auths.DataAccess.Dapper
                          "FROM auths_users " +
                          "WHERE Id = @Id;";
 
-            return _connection.QuerySingleAsync<ApplicationUser>(
-                command[0], new { Id = userId });
+            var usr = _connection.QuerySingleOrDefaultAsync<ApplicationUser>(
+                command[0], new
+                {
+                    Id = userId
+                });
+            if (usr == null)
+            {
+                System.Diagnostics.Trace.TraceError($"UserLoginFailed: UserId: {userId}");
+                //throw new Exception($"UserLoginFailed: UserId: {userId}");
+            }
+
+            return usr;
         }
 
         #region IDisposable Support

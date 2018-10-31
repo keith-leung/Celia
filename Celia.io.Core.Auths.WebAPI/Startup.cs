@@ -52,10 +52,11 @@ namespace Celia.io.Core.Auths.WebAPI_Core
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc(options =>
-                {
-                    //options.Filters.Add(typeof(CoreEventPublisherActionFilter));
-                })
+            services.AddMvc()
+                //options =>
+                //{
+                //    options.Filters.Add(typeof(CoreEventPublisherActionFilter));
+                //})
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(setupAction =>
                 {

@@ -22,15 +22,19 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this._roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
-        } 
+        }
 
         // GET: api/RoleClaims/5
         [HttpGet("getClaimsByRoleId")]
-        public async Task<IEnumerable<ApplicationRoleClaim>> GetClaimsByRoleId([FromQuery] string roleId)
+        public async Task<ActionResponse<ApplicationRoleClaim[]>> GetClaimsByRoleId([FromQuery] string roleId)
         {
-            var result = _roleManager.GetClaimsAsync(new ApplicationRole() { Id = roleId })
-                .ContinueWith<IEnumerable<ApplicationRoleClaim>>(c =>
+            return await _roleManager.GetClaimsAsync(new ApplicationRole() { Id = roleId })
+                .ContinueWith<ActionResponse<ApplicationRoleClaim[]>>(c =>
                 {
+                    ActionResponse<ApplicationRoleClaim[]> result = new ActionResponse<ApplicationRoleClaim[]>()
+                    {
+                        Status = 200
+                    };
                     List<ApplicationRoleClaim> list = new List<ApplicationRoleClaim>();
                     if (c.IsCompleted && c.Result.Count > 0)
                     {
@@ -45,9 +49,10 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
                             });
                         }
                     }
-                    return list.AsEnumerable();
+
+                    result.Data = list.ToArray();
+                    return result;
                 });
-            return result.Result;
         }
 
         // PUT: api/RoleClaims/5
@@ -62,8 +67,8 @@ namespace Celia.io.Core.Auths.WebAPI_Core.Controllers
             return null;
         }
 
-        // POST: api/RoleClaims
-        [HttpPost]
+        // POST: api/RoleClaims 
+        [HttpPost("removeRoleClaim")]
         public async Task<ApplicationRoleClaim> RemoveRoleClaimAsync([FromBody] ApplicationRoleClaim roleClaim)
         {
             var result = await _roleManager.RemoveClaimAsync(new ApplicationRole() { Id = roleClaim.Id },
